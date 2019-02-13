@@ -1,4 +1,8 @@
 import json
+from tagliatelle import TAGLIATELLE_URL
+from tagliatelle.data.TagBulkResponse import TagBulkResponse
+from tagliatelle.data.TagResponse import TagResponse
+
 try:
     from urllib.parse import urlparse, urlencode
     from urllib.request import urlopen, Request
@@ -7,10 +11,6 @@ except ImportError:
     from urlparse import urlparse
     from urllib import urlencode
     from urllib2 import urlopen, Request, HTTPError
-
-from tagliatelle import TAGLIATELLE_URL
-from tagliatelle.data.TagBulkResponse import TagBulkResponse
-from tagliatelle.data.TagResponse import TagResponse
 
 
 class LowLevelClient:
@@ -57,7 +57,7 @@ class LowLevelClient:
             req.add_header("Authorization", "Bearer " + self.accessToken)
             req.add_header("Content-Type", "application/json")
             req.get_method = lambda: 'POST'
-            req.add_data(json.dumps(request))
+            req.data = json.dumps(request)
             urlopen(req)
         except HTTPError as e:
             print(e.read())
@@ -68,7 +68,7 @@ class LowLevelClient:
             req.add_header("Authorization", "Bearer " + self.accessToken)
             req.add_header("Content-Type", "application/json")
             req.get_method = lambda: 'PUT'
-            req.add_data(json.dumps(request))
+            req.data = json.dumps(request)
             urlopen(req)
         except HTTPError as e:
             print(e.read())

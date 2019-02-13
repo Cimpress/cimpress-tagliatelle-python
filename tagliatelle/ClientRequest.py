@@ -1,10 +1,12 @@
 import json
-import urllib2
-
 from tagliatelle import TAGLIATELLE_URL
 from tagliatelle.LowLevelClient import LowLevelClient
 from tagliatelle.data.TagRequest import TagRequest
 
+try:
+    from urllib.error import HTTPError
+except ImportError:
+    from urllib2 import HTTPError
 
 class ClientRequest:
     """This class wraps the high level operations that operate tags in Tagliatelle"""
@@ -53,7 +55,7 @@ class ClientRequest:
     def __handle_operation_tag(self):
         try:
             self.lowLevelClient.post_tag(self.tagRequest)
-        except urllib2.HTTPError, e:
+        except HTTPError as e:
             if e.code == 409:
                 bulk_response = self.lowLevelClient.get_tags(self.tagRequest.key, self.tagRequest.resourceUri)
                 if bulk_response.total != 1:
