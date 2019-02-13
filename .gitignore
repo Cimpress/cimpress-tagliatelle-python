@@ -1,0 +1,4 @@
+*.pyc
+.idea
+dist
+tagliatelle.egg-info
