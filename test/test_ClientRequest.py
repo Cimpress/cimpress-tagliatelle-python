@@ -1,5 +1,8 @@
 import unittest
-import urllib2
+try:
+    from urllib.error import HTTPError
+except ImportError:
+    from urllib2 import HTTPError
 
 from mock import patch
 from tagliatelle.ClientRequest import ClientRequest
@@ -62,7 +65,7 @@ class TestClientRequest(unittest.TestCase):
         self.get_tags.return_value = TagBulkResponse(1, 1, 0, tags)
 
         def side_effect(request):
-            raise urllib2.HTTPError("", 409, "CONFLICT", None, None)
+            raise HTTPError("", 409, "CONFLICT", None, None)
 
         self.post_tag.side_effect = side_effect
 

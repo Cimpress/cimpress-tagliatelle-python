@@ -1,6 +1,12 @@
 import json
-import urllib
-import urllib2
+try:
+    from urllib.parse import urlparse, urlencode
+    from urllib.request import urlopen, Request
+    from urllib.error import HTTPError
+except ImportError:
+    from urlparse import urlparse
+    from urllib import urlencode
+    from urllib2 import urlopen, Request, HTTPError
 
 from tagliatelle import TAGLIATELLE_URL
 from tagliatelle.data.TagBulkResponse import TagBulkResponse
@@ -27,10 +33,10 @@ class LowLevelClient:
             if key is not None:
                 query_params['key'] = key
 
-            req = urllib2.Request(self.serviceUrl + "/v0/tags?" + urllib.urlencode(query_params))
+            req = Request(self.serviceUrl + "/v0/tags?" + urlencode(query_params))
             req.add_header('Authorization', 'Bearer ' + self.accessToken)
 
-            response = urllib2.urlopen(req)
+            response = urlopen(req)
 
             data = json.load(response)
             results = []
@@ -42,39 +48,39 @@ class LowLevelClient:
                 return TagBulkResponse(data.get('count'), data.get('total'), data.get('offset'), results)
             else:
                 return TagBulkResponse(0, 0, 0, [])
-        except urllib2.HTTPError as e:
-            print e.read()
+        except HTTPError as e:
+            print(e.read())
 
     def post_tag(self, request):
         try:
-            req = urllib2.Request(self.serviceUrl + "/v0/tags")
+            req = Request(self.serviceUrl + "/v0/tags")
             req.add_header("Authorization", "Bearer " + self.accessToken)
             req.add_header("Content-Type", "application/json")
             req.get_method = lambda: 'POST'
             req.add_data(json.dumps(request))
-            urllib2.urlopen(req)
-        except urllib2.HTTPError as e:
-            print e.read()
+            urlopen(req)
+        except HTTPError as e:
+            print(e.read())
 
     def put_tag(self, id, request):
         try:
-            req = urllib2.Request(self.serviceUrl + "/v0/tags/" + id)
+            req = Request(self.serviceUrl + "/v0/tags/" + id)
             req.add_header("Authorization", "Bearer " + self.accessToken)
             req.add_header("Content-Type", "application/json")
             req.get_method = lambda: 'PUT'
             req.add_data(json.dumps(request))
-            urllib2.urlopen(req)
-        except urllib2.HTTPError as e:
-            print e.read()
+            urlopen(req)
+        except HTTPError as e:
+            print(e.read())
 
     def delete_tag(self, id):
         try:
-            req = urllib2.Request(self.serviceUrl + "/v0/tags/" + id)
+            req = Request(self.serviceUrl + "/v0/tags/" + id)
             req.add_header("Authorization", "Bearer " + self.accessToken)
             req.get_method = lambda: 'DELETE'
-            urllib2.urlopen(req)
-        except urllib2.HTTPError as e:
-            print e.read()
+            urlopen(req)
+        except HTTPError as e:
+            print(e.read())
 
 
 

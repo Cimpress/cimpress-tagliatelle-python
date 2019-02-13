@@ -10,7 +10,7 @@ from tagliatelle.data.TagRequest import TagRequest
 class TestLowLevelClient(unittest.TestCase):
 
     def setUp(self):
-        self.patcher = patch('urllib2.urlopen')
+        self.patcher = patch('tagliatelle.LowLevelClient.urlopen')
         self.urlopen_mock = self.patcher.start()
 
     def tearDown(self):
