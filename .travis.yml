@@ -1,8 +1,15 @@
 language: python
 python:
-  - "2.7"
-  - "3.6"
+- '2.7'
+- '3.6'
 install:
-  - python -m pip install -r requirements.txt
+- python -m pip install -r requirements.txt
 script:
-  - python -m unittest discover test
+- python -m unittest discover test
+deploy:
+  provider: pypi
+  user: rnowosielski
+  on:
+    branch: master
+  password:
+    secure: A1aSCrTNVrG7S98LgNM6nQnCQF3ol+XeJ46jb6AZyzN1wG8w/mwKbqmTT7kwCnv7qEiB03+wieZJKfsz6KXL7YVC1wQ4uSsg7tf8ua4Yh61N6xitG8gDnvdCQ28AP8fKhiLJhnqjG70vBjIKdLEATcBsOFnJ1++2/gr6YaTj/W71B+kVGWjyVJdIIicHlkGrd8jYzKjpGqdntgfIm6YbgM2Ed+2MpK8qCFdTYzxAx2PGJTV90RXl/6Wtag/rvU8rpu1HnGwRlyfv44ZYw7nqXtKOD5o9z37IYoGrCD0j0yJ74dPAsD5BC2XO6hXjjzt6asZskZf9/vH5kGCfy5j8gEpJDb6Eyw+iLgUgLy+RMPD5tgnACwH308ZvFIdZqTC0Q+PKG6TFjR7YCfRVA/ZQObh/dJj60xrBjuQctKCh6y92eHlv3AkkQZfaxt9xS54k+kQrvlWAuuEuTV2nNX6VtmIsrJo8+WYZLqE0vBEuABJqecw3GlYA5B67Dwj8uUT3MyTukA8e4d/K83qfMdZGccPODmBBTCyeHIV8Q4geC2WWUkO0pOzHzQXKxmCrF4RseAZt7hfygcBSWMNpVQMzz+JpddS9YDv+MO80eeoa6i3fSYaFr6mGOReFAJjjVQWN3YyYRROXNepcls3jQJPmkVzOMi4R+YlzWW0bzuUY34s=
